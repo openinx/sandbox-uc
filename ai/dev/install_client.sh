@@ -15,7 +15,7 @@ if [ ! -d "$CLIENT_TARGET_DIR" ]; then
 fi
 
 # Install the current branch's unitycatalog-client package
-pip install "$CLIENT_TARGET_DIR/.[dev]"
-
-# Install unitycatalog-ai core dev package from the current branch
-pip install "./ai/core/.[dev]"
+# (relies on VIRTUAL_ENV being set by the caller)
+# Note: unitycatalog-ai core is managed by the uv workspace as an editable install;
+# reinstalling it here as a wheel would overwrite the editable install and remove test_utils.
+uv pip install "$CLIENT_TARGET_DIR/.[dev]"

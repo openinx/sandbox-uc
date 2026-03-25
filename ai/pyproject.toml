@@ -1,0 +1,93 @@
+[project]
+name = "unitycatalog-ai-workspace"
+version = "0.0.0"
+description = "Unity Catalog AI Python workspace root"
+requires-python = ">=3.9, <3.13"
+dependencies = []
+
+[tool.uv.workspace]
+# Only include packages compatible with Python 3.9+ as workspace members.
+# Packages requiring Python 3.10+ (autogen, crewai, langchain, dspy, llama_index) are
+# declared as path sources below so they can be installed conditionally via
+# environment markers without raising the workspace's effective requires-python floor.
+members = [
+    "core",
+    "integrations/anthropic",
+    "integrations/gemini",
+    "integrations/openai",
+    "integrations/litellm",
+]
+
+[tool.uv.sources]
+unitycatalog-ai = { workspace = true }
+unitycatalog-anthropic = { workspace = true }
+unitycatalog-gemini = { workspace = true }
+unitycatalog-openai = { workspace = true }
+unitycatalog-litellm = { workspace = true }
+# Path sources for Python 3.10+-only packages (not workspace members to keep
+# the workspace's effective requires-python at >=3.9)
+unitycatalog-autogen = { path = "integrations/autogen" }
+unitycatalog-crewai = { path = "integrations/crewai" }
+unitycatalog-langchain = { path = "integrations/langchain" }
+unitycatalog-llamaindex = { path = "integrations/llama_index" }
+unitycatalog-dspy = { path = "integrations/dspy" }
+
+[tool.uv]
+# Exclude packages released after this date to guard against supply chain attacks
+# https://docs.astral.sh/uv/reference/environment/#uv_exclude_newer
+exclude-newer = "2026-03-10T00:00:00Z"
+required-version = ">=0.5.0"
+# onnxruntime>=1.24 dropped Python 3.10 wheels; cap it so 3.10 CI stays green.
+override-dependencies = ["onnxruntime<1.24"]
+
+[dependency-groups]
+# Linting tools for ucai-core-tests lint job
+lint = ["yamllint==1.35.1", "ruff==0.9.3"]
+
+# Python client library tests (clients/python)
+python-client-tests = ["requests", "pytest", "pytest-asyncio"]
+
+# MLflow OSS integration tests (tests/test_mlflow_integration.py)
+mlflow-integration = ["mlflow", "pytest"]
+
+# Core library tests (ucai-core-tests)
+# databricks-connect is gated to python >= 3.10 in the workflow step
+core-tests = [
+    "unitycatalog-ai",
+    "mlflow",
+    "pytest",
+    "pytest-asyncio",
+    "databricks-connect==15.1.0 ; python_version >= '3.10'",
+]
+
+# ucai-package-build: hatch for building packages
+package-build = ["hatch", "virtualenv<21"]
+
+# Databricks integration tests — one group per integration
+anthropic = ["unitycatalog-anthropic[dev]", "mlflow", "pytest", "pytest-asyncio"]
+autogen = ["unitycatalog-autogen[dev] ; python_version >= '3.10'", "mlflow", "pytest", "pytest-asyncio"]
+crewai = ["unitycatalog-crewai[dev] ; python_version >= '3.10'", "mlflow", "pytest", "pytest-asyncio"]
+gemini = ["unitycatalog-gemini[dev]", "mlflow", "pytest", "pytest-asyncio"]
+langchain = ["unitycatalog-langchain[dev] ; python_version >= '3.10'", "mlflow", "pytest", "pytest-asyncio"]
+llama-index = ["unitycatalog-llamaindex[dev] ; python_version >= '3.10'", "pytest", "pytest-asyncio"]
+openai = ["unitycatalog-openai[dev]", "mlflow", "pytest", "pytest-asyncio"]
+dspy = ["unitycatalog-dspy[dev] ; python_version >= '3.10'", "mlflow", "pytest", "pytest-asyncio"]
+litellm = ["unitycatalog-litellm[dev]", "mlflow", "pytest", "pytest-asyncio"]
+
+# OSS integration tests — all integrations together.
+# Packages requiring Python 3.10+ are guarded with environment markers so that
+# `uv sync` on Python 3.9 skips them gracefully.
+integration-tests-oss = [
+    "unitycatalog-openai[dev]",
+    "unitycatalog-anthropic[dev]",
+    "unitycatalog-gemini[dev]",
+    "unitycatalog-langchain[dev] ; python_version >= '3.10'",
+    "unitycatalog-crewai[dev] ; python_version >= '3.10'",
+    "unitycatalog-autogen[dev] ; python_version >= '3.10'",
+    "unitycatalog-litellm[dev] ; python_version >= '3.10'",
+    "unitycatalog-dspy[dev] ; python_version >= '3.10'",
+    "unitycatalog-llamaindex[dev] ; python_version >= '3.10'",
+    "mlflow",
+    "pytest",
+    "pytest-asyncio",
+]
