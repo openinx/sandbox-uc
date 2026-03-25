@@ -40,6 +40,8 @@ jobs:
           echo "UV_EXCLUDE_NEWER=2026-03-10T00:00:00Z" >> $GITHUB_ENV
       - name: Build distribution files
         id: build-dist
+        env:
+          UV_EXCLUDE_NEWER: ''
         run: |
           hatch build
           # List distribution files and check their file sizes
