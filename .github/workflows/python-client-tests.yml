@@ -26,8 +26,18 @@ jobs:
       with:
         python-version: '3.9'
 
+    - name: Install uv
+      uses: astral-sh/setup-uv@38f3f104447c67c051c4a08e39b64a148898af3a # v4.2.0
+
+    - name: Configure uv
+      run: |
+        # Exclude packages released after this date to guard against supply chain attacks
+        # https://docs.astral.sh/uv/reference/environment/#uv_exclude_newer
+        echo "UV_EXCLUDE_NEWER=2026-03-10T00:00:00Z" >> $GITHUB_ENV
+        echo "UV_SYSTEM_PYTHON=true" >> $GITHUB_ENV
+
     - name: Install dependencies
-      run: pip install requests pytest pytest-asyncio
+      run: uv pip install requests pytest pytest-asyncio
 
     - name: Generate the client library, install it, and run the tests
       run: ./clients/python/run-tests.sh

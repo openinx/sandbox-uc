@@ -26,13 +26,20 @@ jobs:
         with:
           python-version: '3.8'
 
+      - name: Install uv
+        uses: astral-sh/setup-uv@38f3f104447c67c051c4a08e39b64a148898af3a # v4.2.0
+
+      - name: Configure uv
+        run: |
+          # Exclude packages released after this date to guard against supply chain attacks
+          # https://docs.astral.sh/uv/reference/environment/#uv_exclude_newer
+          echo "UV_EXCLUDE_NEWER=2026-03-10T00:00:00Z" >> $GITHUB_ENV
+          echo "UV_SYSTEM_PYTHON=true" >> $GITHUB_ENV
+
       - name: Install dependencies
         run: |
-          python -m venv venv
-          source venv/bin/activate
-          pip install requests
+          uv pip install requests
 
       - name: Test tarball
         run: |
-          source venv/bin/activate
           python tests/test_tarball_generation.py
