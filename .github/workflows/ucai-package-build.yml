@@ -36,10 +36,9 @@ jobs:
           # Exclude packages released after this date to guard against supply chain attacks
           # https://docs.astral.sh/uv/reference/environment/#uv_exclude_newer
           echo "UV_EXCLUDE_NEWER=2026-03-10T00:00:00Z" >> $GITHUB_ENV
-          echo "UV_SYSTEM_PYTHON=true" >> $GITHUB_ENV
       - name: Install dependencies
         run: |
-          uv pip install hatch
+          uv pip install --system hatch
       - name: Build distribution files
         id: build-dist
         run: |
@@ -62,9 +61,9 @@ jobs:
           diff /tmp/source.txt /tmp/wheel.txt || true
       - name: Test installation from tarball
         run: |
-          uv pip install ${{ steps.build-dist.outputs.sdist-path }}
+          uv pip install --system ${{ steps.build-dist.outputs.sdist-path }}
           python -c "import unitycatalog.ai.core; print(unitycatalog.ai.core.__version__)"
       - name: Test installation from wheel
         run: |
-          uv pip install --force-reinstall ${{ steps.build-dist.outputs.wheel-path }}
+          uv pip install --system --force-reinstall ${{ steps.build-dist.outputs.wheel-path }}
           python -c "import unitycatalog.ai.core; print(unitycatalog.ai.core.__version__)"

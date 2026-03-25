@@ -33,10 +33,9 @@ jobs:
           # Exclude packages released after this date to guard against supply chain attacks
           # https://docs.astral.sh/uv/reference/environment/#uv_exclude_newer
           echo "UV_EXCLUDE_NEWER=2026-03-10T00:00:00Z" >> $GITHUB_ENV
-          echo "UV_SYSTEM_PYTHON=true" >> $GITHUB_ENV
       - name: Install dependencies
         run: |
-          uv pip install -r requirements/lint-requirements.txt
+          uv pip install --system -r requirements/lint-requirements.txt
       - name: Lint Python code with ruff
         run: |
           ruff check .
@@ -73,17 +72,16 @@ jobs:
           # Exclude packages released after this date to guard against supply chain attacks
           # https://docs.astral.sh/uv/reference/environment/#uv_exclude_newer
           echo "UV_EXCLUDE_NEWER=2026-03-10T00:00:00Z" >> $GITHUB_ENV
-          echo "UV_SYSTEM_PYTHON=true" >> $GITHUB_ENV
       - name: Install Pydantic dependencies
         run: |
           if [ ${{ matrix.pydantic-version }} == 1 ]; then
-            uv pip install 'pydantic<2'
+            uv pip install --system 'pydantic<2'
           else
-            uv pip install 'pydantic<3,>=2'
+            uv pip install --system 'pydantic<3,>=2'
           fi
       - name: Install dependencies
         run: |
-          uv pip install mlflow
+          uv pip install --system mlflow
       - name: Install Unity Catalog Python Libraries
         run: |
           dev/install_client.sh
@@ -96,7 +94,7 @@ jobs:
       - name: Run Databricks Unit Tests
         if: matrix.python-version == '3.10'
         run: |
-          uv pip install databricks-connect==15.1.0
+          uv pip install --system databricks-connect==15.1.0
           pytest core/tests/core/databricks/test_databricks_unit_tests.py
       - name: Stop Unity Catalog Server
         if: always()

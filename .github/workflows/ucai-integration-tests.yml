@@ -39,13 +39,12 @@ jobs:
           # Exclude packages released after this date to guard against supply chain attacks
           # https://docs.astral.sh/uv/reference/environment/#uv_exclude_newer
           echo "UV_EXCLUDE_NEWER=2026-03-10T00:00:00Z" >> $GITHUB_ENV
-          echo "UV_SYSTEM_PYTHON=true" >> $GITHUB_ENV
       - name: Install dependencies
         run: |
-          uv pip install core/.
+          uv pip install --system core/.
           echo "PYTHONPATH=$(pwd)/core/src:\$PYTHONPATH" >> $GITHUB_ENV
-          uv pip install integrations/crewai[dev]
-          uv pip install mlflow
+          uv pip install --system integrations/crewai[dev]
+          uv pip install --system mlflow
       - name: Run tests
         run: |
           pytest integrations/crewai/tests --ignore=integrations/crewai/tests/test_crewai_toolkit_oss.py
@@ -73,13 +72,12 @@ jobs:
           # Exclude packages released after this date to guard against supply chain attacks
           # https://docs.astral.sh/uv/reference/environment/#uv_exclude_newer
           echo "UV_EXCLUDE_NEWER=2026-03-10T00:00:00Z" >> $GITHUB_ENV
-          echo "UV_SYSTEM_PYTHON=true" >> $GITHUB_ENV
       - name: Install Core Library and Langchain Integration
         run: |
-          uv pip install core/.
+          uv pip install --system core/.
           echo "PYTHONPATH=$(pwd)/core/src:\$PYTHONPATH" >> $GITHUB_ENV
-          uv pip install integrations/langchain[dev]
-          uv pip install mlflow
+          uv pip install --system integrations/langchain[dev]
+          uv pip install --system mlflow
       - name: Run Langchain Tests
         run: |
           pytest integrations/langchain/tests --ignore=integrations/langchain/tests/test_langchain_toolkit_oss.py
@@ -107,13 +105,12 @@ jobs:
           # Exclude packages released after this date to guard against supply chain attacks
           # https://docs.astral.sh/uv/reference/environment/#uv_exclude_newer
           echo "UV_EXCLUDE_NEWER=2026-03-10T00:00:00Z" >> $GITHUB_ENV
-          echo "UV_SYSTEM_PYTHON=true" >> $GITHUB_ENV
       - name: Install Core Library and Anthropic Integration
         run: |
-          uv pip install core/.
+          uv pip install --system core/.
           echo "PYTHONPATH=$(pwd)/core/src:\$PYTHONPATH" >> $GITHUB_ENV
-          uv pip install integrations/anthropic[dev]
-          uv pip install mlflow
+          uv pip install --system integrations/anthropic[dev]
+          uv pip install --system mlflow
       - name: Run Anthropic Tests
         run: |
           pytest integrations/anthropic/tests --ignore=integrations/anthropic/tests/test_anthropic_toolkit_oss.py
@@ -141,13 +138,12 @@ jobs:
           # Exclude packages released after this date to guard against supply chain attacks
           # https://docs.astral.sh/uv/reference/environment/#uv_exclude_newer
           echo "UV_EXCLUDE_NEWER=2026-03-10T00:00:00Z" >> $GITHUB_ENV
-          echo "UV_SYSTEM_PYTHON=true" >> $GITHUB_ENV
       - name: Install Core Library and LlamaIndex Integration
         run: |
-          uv pip install core/.
+          uv pip install --system core/.
           echo "PYTHONPATH=$(pwd)/core/src:\$PYTHONPATH" >> $GITHUB_ENV
-          uv pip install integrations/llama_index[dev]
-          uv pip install mlflow
+          uv pip install --system integrations/llama_index[dev]
+          uv pip install --system mlflow
       - name: Run LlamaIndex Tests
         run: |
           pytest integrations/llama_index/tests --ignore=integrations/llama_index/tests/test_llama_index_toolkit_oss.py
@@ -175,13 +171,12 @@ jobs:
           # Exclude packages released after this date to guard against supply chain attacks
           # https://docs.astral.sh/uv/reference/environment/#uv_exclude_newer
           echo "UV_EXCLUDE_NEWER=2026-03-10T00:00:00Z" >> $GITHUB_ENV
-          echo "UV_SYSTEM_PYTHON=true" >> $GITHUB_ENV
       - name: Install Core Library and OpenAI Integration
         run: |
-          uv pip install core/.
+          uv pip install --system core/.
           echo "PYTHONPATH=$(pwd)/core/src:\$PYTHONPATH" >> $GITHUB_ENV
-          uv pip install integrations/openai[dev]
-          uv pip install mlflow
+          uv pip install --system integrations/openai[dev]
+          uv pip install --system mlflow
       - name: Run OpenAI Tests
         run: |
           pytest integrations/openai/tests --ignore=integrations/openai/tests/test_openai_toolkit_oss.py
@@ -209,13 +204,12 @@ jobs:
           # Exclude packages released after this date to guard against supply chain attacks
           # https://docs.astral.sh/uv/reference/environment/#uv_exclude_newer
           echo "UV_EXCLUDE_NEWER=2026-03-10T00:00:00Z" >> $GITHUB_ENV
-          echo "UV_SYSTEM_PYTHON=true" >> $GITHUB_ENV
       - name: Install dependencies
         run: |
-          uv pip install core/.
+          uv pip install --system core/.
           echo "PYTHONPATH=$(pwd)/core/src:\$PYTHONPATH" >> $GITHUB_ENV
-          uv pip install integrations/autogen[dev]
-          uv pip install mlflow
+          uv pip install --system integrations/autogen[dev]
+          uv pip install --system mlflow
       - name: Run tests
         run: |
           pytest integrations/autogen/tests --ignore=integrations/autogen/tests/test_autogen_toolkit_oss.py
@@ -243,13 +237,12 @@ jobs:
           # Exclude packages released after this date to guard against supply chain attacks
           # https://docs.astral.sh/uv/reference/environment/#uv_exclude_newer
           echo "UV_EXCLUDE_NEWER=2026-03-10T00:00:00Z" >> $GITHUB_ENV
-          echo "UV_SYSTEM_PYTHON=true" >> $GITHUB_ENV
       - name: Install dependencies
         run: |
-          uv pip install core/.
+          uv pip install --system core/.
           echo "PYTHONPATH=$(pwd)/core/src:\$PYTHONPATH" >> $GITHUB_ENV
-          uv pip install integrations/gemini[dev]
-          uv pip install mlflow
+          uv pip install --system integrations/gemini[dev]
+          uv pip install --system mlflow
       - name: Run tests
         run: |
           pytest integrations/gemini/tests --ignore=integrations/gemini/tests/test_gemini_toolkit_oss.py
@@ -277,13 +270,12 @@ jobs:
           # Exclude packages released after this date to guard against supply chain attacks
           # https://docs.astral.sh/uv/reference/environment/#uv_exclude_newer
           echo "UV_EXCLUDE_NEWER=2026-03-10T00:00:00Z" >> $GITHUB_ENV
-          echo "UV_SYSTEM_PYTHON=true" >> $GITHUB_ENV
       - name: Install dependencies
         run: |
-          uv pip install core/.
+          uv pip install --system core/.
           echo "PYTHONPATH=$(pwd)/core/src:\$PYTHONPATH" >> $GITHUB_ENV
-          uv pip install integrations/litellm[dev]
-          uv pip install mlflow
+          uv pip install --system integrations/litellm[dev]
+          uv pip install --system mlflow
       - name: Run tests
         run: |
           pytest integrations/litellm/tests --ignore=integrations/litellm/tests/test_litellm_toolkit_oss.py
@@ -311,13 +303,12 @@ jobs:
           # Exclude packages released after this date to guard against supply chain attacks
           # https://docs.astral.sh/uv/reference/environment/#uv_exclude_newer
           echo "UV_EXCLUDE_NEWER=2026-03-10T00:00:00Z" >> $GITHUB_ENV
-          echo "UV_SYSTEM_PYTHON=true" >> $GITHUB_ENV
       - name: Install dependencies
         run: |
-          uv pip install core/.
+          uv pip install --system core/.
           echo "PYTHONPATH=$(pwd)/core/src:\$PYTHONPATH" >> $GITHUB_ENV
-          uv pip install integrations/dspy[dev]
-          uv pip install mlflow
+          uv pip install --system integrations/dspy[dev]
+          uv pip install --system mlflow
       - name: Run tests
         run: |
           pytest integrations/dspy/tests --ignore=integrations/dspy/tests/test_dspy_toolkit_oss.py
