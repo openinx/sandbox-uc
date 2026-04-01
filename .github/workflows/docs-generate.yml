@@ -8,25 +8,32 @@ on:
 
 jobs:
   docs-generate:
-    if: false  # Disabled to prevent supply chain attacks; remove this line to restore
     runs-on: ubuntu-22.04
     steps:
       - name: Check out
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
 
       - name: Set up Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: '3.11'
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@38f3f104447c67c051c4a08e39b64a148898af3a # v4.2.0
+
+      - name: Install dependencies
+        env:
+          # Exclude packages released after this date to guard against supply chain attacks
+          # https://docs.astral.sh/uv/reference/environment/#uv_exclude_newer
+          UV_EXCLUDE_NEWER: 2026-03-10T00:00:00Z
         run: |
-          python -m venv venv
-          . ./venv/bin/activate
-          pip install -r requirements-docs.txt
+          uv pip install --system -r requirements-docs.txt
 
       - name: Check documentation
         run: |
-          . ./venv/bin/activate
           mkdocs build --strict
 
   openapi-docs-validation:
-    if: false  # Disabled to prevent supply chain attacks; remove this line to restore
     runs-on: ubuntu-latest
 
     steps:
