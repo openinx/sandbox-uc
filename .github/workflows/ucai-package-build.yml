@@ -39,7 +39,7 @@ jobs:
           echo "UV_EXCLUDE_NEWER=2026-03-10T00:00:00Z" >> $GITHUB_ENV
       - name: Install dependencies
         run: |
-          uv pip install --system hatch
+          uv pip install --system hatch 'virtualenv<21'
       - name: Build distribution files
         id: build-dist
         run: |
